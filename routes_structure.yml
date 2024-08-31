@@ -1,0 +1,10 @@
+Auth_Routes:
+  /api/auth/login : "to Login"
+
+User Routes:
+  /api/user/ : "Profile dashboard"
+  /api/user/projects : "Profile projects"
+  /api/user/seminars : "Profile Seminars",
+  /api/user/research : "Profile Research",
+
+

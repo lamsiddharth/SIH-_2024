@@ -1,20 +1,41 @@
-import mongoose from 'mongoose';
+import mongoose, { model } from 'mongoose';
 const SeminarSchema = new mongoose.model({
+    seminarId:{
+        type:String,
+        required:true,
+    },
     title: { 
         type: String, 
         required: true 
     },
-    FacultyId: {
-        type: Mongoose.Schema.types.objectId,
-        required: true,
-        ref: 'User'
+    track:{
+        type:String,
+        required:true,
     },
     objective: { 
         type: String,
          required: true 
     },
-    role: { 
-        type: String,
-        enum: ['attendee', 'organizer']
+    description:{
+        type:String,
     },
+    FacultyId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    approved: {
+        type: String,
+        enum: ['declined', 'processing', 'approved'],
+        default: 'processing'
+    },
+    date:{
+        type:Date,
+        required:true
+    },
+    link:{
+        type:String,
+    }
 })
+
+module.exports = mongoose.model('seminars', SeminarSchema);

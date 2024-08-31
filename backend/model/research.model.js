@@ -1,29 +1,42 @@
-import { DefaultLogger } from 'drizzle-orm';
-import { boolean } from 'drizzle-orm/mysql-core';
 import mongoose from 'mongoose';
 
-const projectSchema = new mongoose.model({
-    title: { 
-        type: String,
-         required: true 
-    },
-    description: { 
+const researchSchema = new mongoose.Schema({
+    ResearchId: {
         type: String,
         required: true
     },
+    title:{
+        type:String,
+        required: true,
+    },
+    journal: {
+        type: String,
+        required: true,
+    },
     FacultyId: {
-        type: Mongoose.Schema.types.objectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
-    link: { 
+    PublicationDate: { 
+        type: Date,
+        required: true,
+
+    },
+    JournalConferenceName: { 
+        type: String, 
+        
+    },
+    body: { 
         type: String
     },
     approved: {
         type: boolean,
         enum: ['declined', 'processing', 'approved'],
         default: 'processing'
+    },
+    keywords:{
+        type:[String],
     }
 })
-
-module.exports = mongoose.model('Project', projectSchema)
+module.exports = mongoose.model('Research', researchSchema);
