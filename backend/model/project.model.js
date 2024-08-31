@@ -1,37 +1,31 @@
 import mongoose from 'mongoose';
 
-const researchSchema = new mongoose.Schema({
-    ResearchId: {
+const projectSchema = new mongoose.model({
+    projectID:{
+        type:String,
+        required:true,
+    },
+    title: { 
+        type: String,
+         required: true 
+    },
+    coverPicLink:{
+        type:String,
+    },
+    description: { 
         type: String,
         required: true
-    },
-    title:{
-        type:String,
-        required: true,
-    },
-    journal: {
-        type: String,
-        required: true,
     },
     FacultyId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
-    PublicationDate: { 
-        type: Date,
-        required: true,
-
-    },
-    JournalConferenceName: { 
-        type: String, 
-        
-    },
-    body: { 
+    link: { 
         type: String
     },
     approved: {
-        type: boolean,
+        type: String,
         enum: ['declined', 'processing', 'approved'],
         default: 'processing'
     },
@@ -39,4 +33,5 @@ const researchSchema = new mongoose.Schema({
         type:[String],
     }
 })
-module.exports = mongoose.model('Research', researchSchema);
+
+module.exports = mongoose.model('Project', projectSchema)
