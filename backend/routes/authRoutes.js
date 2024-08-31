@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../model/user';
-import jwt from 'jwt';
+import {  create_token } from '../service/auth';
 
 const router = express.Router();
 
@@ -9,22 +9,27 @@ router.post('/login', async(req, res) => {
     try {
         const{facultyId, password} = req.body;
         const user = await User.findOne({facultyId});
-        const isPasswordCorrect = await bcrypt.compare(password, user?.password ||'')
-
-        if(!user || isPasswordCorrect){
+        if(!user){
             return res.status(400).json({error: 'no such faculty exists'})
 
         }
-        const token = jwt.sign({facultyId}, process.env.JWT_SECRET, {
-            expiresIn: '2d',
-        })
+        const isPasswordCorrect = await bcrypt.compare(password, user.password)
+        if(!isPasswordCorrect){
+            return res.status(400).json({error: 'wrong password'})
+        }
 
-        res.cookie('jwt', token, {
+        const token = create_token(user);
+
+        res.cookie('token', token, {
             maxAge: 15*24*60*60*1000,
         })
 
 
     } catch (error) {
-        res.status(400).json({error: "eroor signing in"})
+        res.status(500).json({error: "error signing in"})
     }
 })
+
+
+
+module.exports = router

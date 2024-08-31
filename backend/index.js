@@ -1,17 +1,17 @@
 const express = require('express');
-import authRoutes from ''
-
 const app = express();
 const cors = require('cors')
 require('dotenv').config();
-const router = express.Router();
-app.use(cookieParser());
+const cookieparser = require('cookie-parser')
+const AuthRoutes = require('./routes/authRoutes')
+const {AuthUser} = require('./middlewares/usermiddleware')
 
+app.use(cookieparser);
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', AuthUser,AuthRoutes);      //FOR LOGIN SEND post request to the endpoint /api/auth/login
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRouter);
 
