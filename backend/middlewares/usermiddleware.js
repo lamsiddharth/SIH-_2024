@@ -7,19 +7,19 @@ async function AuthUser(req, res, next) {
         const token = res.cookies.token;
 
         if(!token){
-            return res.status(401).json({ error: "Unauthorized - No Token Provided" });
+            return res.status(401).json({ success: false,error: "Unauthorized - No Token Provided" });
         }
 
         const decoded = verify_TOKEN(token);
 
         if(!decoded){
-            return res.status(401).json({ error: "Unauthorized - Invalid Token" });
+            return res.status(401).json({ success:false, error: "Unauthorized - Invalid Token" });
         }
 
         const user = await User.findOne(decoded.facultyId);
 
         if (!user) {
-			return res.status(404).json({ error: "User not found" });
+			return res.status(404).json({success:false, error: "User not found" });
 		}
 
 		req.user = user;
